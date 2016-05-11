@@ -1,0 +1,22 @@
+{
+  "name": "corona-chatroom",
+  "version": "1.0.0",
+  "description": "chatroom demo for corona framework",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/coronajs/corona-chatroom.git"
+  },
+  "author": "ShiningRay",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/coronajs/corona-chatroom/issues"
+  },
+  "homepage": "https://github.com/coronajs/corona-chatroom#readme",
+  "dependencies": {
+    "corona": "0.0.1"
+  }
+}
