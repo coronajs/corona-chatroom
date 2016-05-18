@@ -18,5 +18,8 @@
   "homepage": "https://github.com/coronajs/corona-chatroom#readme",
   "dependencies": {
     "corona": "0.0.1"
+  },
+  "devDependencies": {
+    "babel-cli": "^6.8.0"
   }
 }
