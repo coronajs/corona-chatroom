@@ -19,7 +19,6 @@ export class RoomModel extends Model<Room> {
   private shutdownTimer: NodeJS.Timer;
   // constructor(data) {
   //   super(data);
-
   // }
 
   join(who) {
@@ -29,8 +28,10 @@ export class RoomModel extends Model<Room> {
   }
 
   leave(who) {
-    var user = _.remove(this.users, (u) => u.id == who);
-    user.room = null;
+    var id = _.findIndex(this.users, (u) => u.id == who);
+    var [user] = this.users.splice(id, 1);
+    if (!user) return;
+    who.room = null;
     this.emit('leave', who.id);
     console.log(who.id, 'leaved')
     console.log('now ', this.users.length)
@@ -39,8 +40,18 @@ export class RoomModel extends Model<Room> {
     }
   }
 
-  waitForShutdown(timeout=30000) {
+  post(who, content) {
+    this.chats.push(content);
+    this.emit('chat', { user_id: who.id, content: content });
+  }
+
+  waitForShutdown(timeout = 30000) {
+    if (this.shutdownTimer) {
+      return;
+    }
+    
     this.shutdownTimer = setTimeout(() => this.dispose(), timeout);
+    
     this.once('join', () => {
       if (this.shutdownTimer) {
         clearTimeout(this.shutdownTimer)
@@ -60,7 +71,7 @@ export class RoomModel extends Model<Room> {
 export class UserModel extends Model<User> {
   private socket: SocketIO.Socket;
   private disposeTimeout: NodeJS.Timer;
-  public room:RoomModel;
+  public room: RoomModel;
 
   setSocket(socket: SocketIO.Socket) {
     if (this.socket) {
